@@ -26,9 +26,9 @@ app.post("/create_preference", async (req, res) => {
         currency_id: "COP"
       }],
       back_urls: {
-        success: "https://eltiempo.com",
-        failure: "https://eltiempo.com",
-        pending: "https://eltiempo.com"
+        success: "https://polizasonline.online/sura/",
+        failure: "https://polizasonline.online/sura/",
+        pending: "https://polizasonline.online/sura/"
       },
       auto_return: "approved"
     };
