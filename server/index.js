@@ -1,10 +1,10 @@
-import express from "express";
+import express from "express"; 
 import cors from "cors";
 import { MercadoPagoConfig, Preference } from "mercadopago";
 
 // Es recomendable usar variables de entorno para el token
 const client = new MercadoPagoConfig({
-  accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN || 'APP_USR-4419716397229857-031914-b5f0878b92176088c433afb031c2c8d8-2190588468'
+  accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN || 'APP_USR-1649390323222844-031918-5d34f0174bc8cc7a502687b8c3af43ce-1014313313'
 });
 
 const app = express();
@@ -30,12 +30,23 @@ app.post("/create_preference", async (req, res) => {
         failure: "https://polizasonline.online/sura/",
         pending: "https://polizasonline.online/sura/"
       },
-      auto_return: "approved"
+      auto_return: "approved",
+      // Configuración para que solo se muestre PSE:
+      payment_methods: {
+        excluded_payment_types: [
+          { id: "credit_card" },
+          { id: "debit_card" },
+          { id: "prepaid_card" },
+          { id: "ticket" },
+          { id: "account_money" },
+          { id: "digital_currency" }
+        ],
+        default_payment_method_id: "pse"
+      }
     };
 
     const preference = new Preference(client);
     const result = await preference.create({ body });
-
     res.json({ id: result.id });
   } catch (error) {
     console.error(error);
@@ -43,5 +54,4 @@ app.post("/create_preference", async (req, res) => {
   }
 });
 
-// Exporta la app para que Vercel la use como función serverless
 export default app;
