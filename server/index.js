@@ -30,28 +30,18 @@ app.post("/create_preference", async (req, res) => {
         failure: "https://polizasonline.online/sura/",
         pending: "https://polizasonline.online/sura/"
       },
-      auto_return: "approved",
-      // Configuración para que solo se muestre PSE:
-      payment_methods: {
-        excluded_payment_types: [
-          { id: "credit_card" },
-          { id: "debit_card" },
-          { id: "prepaid_card" },
-          { id: "ticket" },
-          { id: "account_money" },
-          { id: "digital_currency" }
-        ],
-        default_payment_method_id: "pse"
-      }
+      auto_return: "approved"
     };
 
     const preference = new Preference(client);
     const result = await preference.create({ body });
+
     res.json({ id: result.id });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al crear la preferencia :(" });
   }
 });
+
 
 export default app;
