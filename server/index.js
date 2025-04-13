@@ -30,7 +30,13 @@ app.post("/create_preference", async (req, res) => {
         failure: "https://polizasonline.online/sura/",
         pending: "https://polizasonline.online/sura/"
       },
-      auto_return: "approved"
+      auto_return: "approved",
+      payment_methods: {
+        // Excluimos pagos con tarjeta de crédito para aceptar solo PSE.
+        excluded_payment_types: [
+          { id: "credit_card" }
+        ]
+      }
     };
 
     const preference = new Preference(client);
@@ -42,6 +48,5 @@ app.post("/create_preference", async (req, res) => {
     res.status(500).json({ error: "Error al crear la preferencia :(" });
   }
 });
-
 
 export default app;
